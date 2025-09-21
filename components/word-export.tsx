@@ -306,7 +306,14 @@ export function WordExport({ student }: WordExportProps) {
                             new TableCell({
                               children: [
                                 new Paragraph({
-                                  children: [new TextRun({ text: grade.grades[gradeLevel]?.conduct || "-" })],
+                                  children: [
+                                    new TextRun({
+                                      text:
+                                        grade.grades[gradeLevel] && "conduct" in grade.grades[gradeLevel]
+                                          ? (grade.grades[gradeLevel] as any).conduct || "-"
+                                          : "-",
+                                    }),
+                                  ],
                                   alignment: AlignmentType.CENTER,
                                 }),
                               ],
@@ -420,7 +427,11 @@ export function WordExport({ student }: WordExportProps) {
       alert("Word document exported successfully!")
     } catch (error) {
       console.error("[v0] Error exporting to Word:", error)
-      alert(`Failed to export to Word document: ${error.message}`)
+      alert(
+        `Failed to export to Word document: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      )
     } finally {
       setIsExporting(false)
     }
