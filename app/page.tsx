@@ -280,7 +280,6 @@ export default function TranscriptGenerator() {
                       <div className="text-sm text-muted-foreground">Age {student.age}</div>
                       <div className="text-sm text-muted-foreground">{student.template}</div>
                       <div className="text-sm text-muted-foreground">{student.academicYears}</div>
-                      <div className="text-sm text-muted-foreground">{student.grades?.length || 0} subjects</div>
                     </div>
                     <Button
                       variant="ghost"

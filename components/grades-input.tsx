@@ -1,88 +1,103 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Save, Download, Upload } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Student } from "@/app/page"
+import type React from "react";
+import { useState, useEffect, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Save, Download, Upload } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { Student } from "@/app/page";
 
 interface GradesInputProps {
-  student: Student
-  onSave: (student: Student) => void
+  student: Student;
+  onSave: (student: Student) => void;
 }
 
 interface Grade {
-  subject: string
+  subject: string;
   grades: {
     [gradeLevel: string]: {
-      semester1: number
-      semester2: number
-      yearAvg: number
-      total: number
-    }
-  }
+      semester1: number;
+      semester2: number;
+      yearAvg: number;
+      total: number;
+    };
+  };
 }
 
 interface ConductData {
   [gradeLevel: string]: {
-    semester1: string
-    semester2: string
-    yearAvg: string
-  }
+    semester1: string;
+    semester2: string;
+    yearAvg: string;
+  };
 }
 
 export function GradesInput({ student, onSave }: GradesInputProps) {
-  console.log("[v0] GradesInput component loaded for student:", student?.name)
-  console.log("[v0] Student grades data:", student?.grades)
+  console.log("[v0] GradesInput component loaded for student:", student?.name);
+  console.log("[v0] Student grades data:", student?.grades);
 
-  const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({})
-  const [isSaving, setIsSaving] = useState(false)
-  const [editableTotals, setEditableTotals] = useState<{ [key: string]: any }>({})
-  const [conduct, setConduct] = useState<ConductData>({})
+  const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  const [isSaving, setIsSaving] = useState(false);
+  const [editableTotals, setEditableTotals] = useState<{ [key: string]: any }>(
+    {}
+  );
+  const [conduct, setConduct] = useState<ConductData>({});
 
   const getGradeLevels = (template: string): string[] => {
     switch (template) {
       case "G9-G12":
-        return ["G9", "G10", "G11", "G12"]
+        return ["G9", "G10", "G11", "G12"];
       case "G10-G12":
-        return ["G10", "G11", "G12"]
+        return ["G10", "G11", "G12"];
       case "G11-G12":
-        return ["G11", "G12"]
+        return ["G11", "G12"];
       case "G12":
-        return ["G12"]
+        return ["G12"];
       default:
-        return ["G12"]
+        return ["G12"];
     }
-  }
+  };
 
   const initializeGrades = (): Grade[] => {
-    console.log("[v0] Initializing grades for template:", student?.template)
+    console.log("[v0] Initializing grades for template:", student?.template);
 
     if (!student || !student.template) {
-      console.log("[v0] No student or template found, returning empty grades")
-      return []
+      console.log("[v0] No student or template found, returning empty grades");
+      return [];
     }
 
-    const gradeLevels = getGradeLevels(student.template)
-    console.log("[v0] Grade levels for template:", gradeLevels)
+    const gradeLevels = getGradeLevels(student.template);
+    console.log("[v0] Grade levels for template:", gradeLevels);
 
-    const initialConduct: ConductData = {}
+    const initialConduct: ConductData = {};
     gradeLevels.forEach((level) => {
       initialConduct[level] = {
         semester1: "A",
         semester2: "A",
         yearAvg: "A",
-      }
-    })
-    setConduct(initialConduct)
+      };
+    });
+    setConduct(initialConduct);
 
     return PREDEFINED_SUBJECTS.map((subject) => {
-      const existingGrade = student.grades?.find((g) => g.subject === subject)
-      const grades: { [gradeLevel: string]: any } = {}
+      const existingGrade = student.grades?.find((g) => g.subject === subject);
+      const grades: { [gradeLevel: string]: any } = {};
 
       gradeLevels.forEach((level) => {
         grades[level] = existingGrade?.grades?.[level] || {
@@ -90,72 +105,92 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
           semester2: 0,
           yearAvg: 0,
           total: 0,
-        }
-      })
+        };
+      });
 
       return {
         subject,
         grades,
-      }
-    })
-  }
+      };
+    });
+  };
 
-  const [grades, setGrades] = useState<Grade[]>([])
+  const [grades, setGrades] = useState<Grade[]>([]);
 
   useEffect(() => {
-    console.log("[v0] useEffect triggered, student changed:", student?.name)
+    console.log("[v0] useEffect triggered, student changed:", student?.name);
     try {
-      const initializedGrades = initializeGrades()
-      console.log("[v0] Initialized grades:", initializedGrades.length, "subjects")
-      setGrades(initializedGrades)
+      const initializedGrades = initializeGrades();
+      console.log(
+        "[v0] Initialized grades:",
+        initializedGrades.length,
+        "subjects"
+      );
+      setGrades(initializedGrades);
     } catch (error) {
-      console.error("[v0] Error initializing grades:", error)
-      setGrades([])
+      console.error("[v0] Error initializing grades:", error);
+      setGrades([]);
     }
-  }, [student])
+  }, [student]);
 
   const calculateYearAvg = (sem1: number, sem2: number): number => {
-    if (sem1 === 0 && sem2 === 0) return 0
-    if (sem1 === 0) return Number(sem2.toFixed(2))
-    if (sem2 === 0) return Number(sem1.toFixed(2))
-    return Number(((sem1 + sem2) / 2).toFixed(2))
-  }
+    if (sem1 === 0 && sem2 === 0) return 0;
+    if (sem1 === 0) return Number(sem2.toFixed(2));
+    if (sem2 === 0) return Number(sem1.toFixed(2));
+    return Number(((sem1 + sem2) / 2).toFixed(2));
+  };
 
   const validateGrade = (value: string): number => {
-    const numValue = Number.parseFloat(value) || 0
-    return Math.min(Math.max(numValue, 0), 100) // Limit between 0 and 100
-  }
+    const numValue = Number.parseFloat(value) || 0;
+    return Math.min(Math.max(numValue, 0), 100); // Limit between 0 and 100
+  };
 
-  const updateGrade = (subjectIndex: number, gradeLevel: string, field: string, value: string | number) => {
-    console.log("[v0] Updating grade:", subjectIndex, gradeLevel, field, value)
-
+  type GradeField = "semester1" | "semester2" | "yearAvg" | "total";
+  
+  const updateGrade = (
+    subjectIndex: number,
+    gradeLevel: string,
+    field: GradeField,
+    value: string | number
+  ) => {
+    console.log("[v0] Updating grade:", subjectIndex, gradeLevel, field, value);
+  
     setGrades((prev) => {
-      const updated = [...prev]
-
+      const updated = [...prev];
+  
       if (subjectIndex < 0 || subjectIndex >= updated.length) {
-        console.error("[v0] Invalid subject index:", subjectIndex)
-        return prev
+        console.error("[v0] Invalid subject index:", subjectIndex);
+        return prev;
       }
+  
+      const numValue = typeof value === "string" ? validateGrade(value) : value;
+      updated[subjectIndex].grades[gradeLevel][field] = numValue;
+  
+      const sem1 = updated[subjectIndex].grades[gradeLevel].semester1;
+      const sem2 = updated[subjectIndex].grades[gradeLevel].semester2;
+      updated[subjectIndex].grades[gradeLevel].yearAvg = calculateYearAvg(
+        sem1,
+        sem2
+      );
+      updated[subjectIndex].grades[gradeLevel].total = Number(
+        (sem1 + sem2).toFixed(2)
+      );
+  
+      return updated;
+    });
+  };
 
-      const numValue = typeof value === "string" ? validateGrade(value) : value
-      updated[subjectIndex].grades[gradeLevel][field] = numValue
-
-      const sem1 = updated[subjectIndex].grades[gradeLevel].semester1
-      const sem2 = updated[subjectIndex].grades[gradeLevel].semester2
-      updated[subjectIndex].grades[gradeLevel].yearAvg = calculateYearAvg(sem1, sem2)
-      updated[subjectIndex].grades[gradeLevel].total = Number((sem1 + sem2).toFixed(2))
-
-      return updated
-    })
-  }
-
-  const updateEditableTotal = (gradeLevel: string, field: string, value: string) => {
-    const numValue = Number.parseFloat(value) || 0
+  const updateEditableTotal = (
+    gradeLevel: string,
+    field: string,
+    value: string
+  ) => {
+    const numValue = Number.parseFloat(value) || 0;
     setEditableTotals((prev) => ({
       ...prev,
       [`${gradeLevel}-${field}`]: numValue,
-    }))
-  }
+    }));
+  };
 
   const calculateGradeLevelTotals = (gradeLevel: string) => {
     const totals = {
@@ -163,40 +198,54 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
       semester2: 0,
       yearAvg: 0,
       total: 0,
-    }
+    };
 
-    let subjectCount = 0
+    let subjectCount = 0;
 
     grades.forEach((grade) => {
-      const gradeData = grade.grades[gradeLevel]
+      const gradeData = grade.grades[gradeLevel];
       if (gradeData && (gradeData.semester1 > 0 || gradeData.semester2 > 0)) {
-        totals.semester1 += gradeData.semester1
-        totals.semester2 += gradeData.semester2
-        totals.yearAvg += gradeData.yearAvg
-        totals.total += gradeData.total
-        subjectCount++
+        totals.semester1 += gradeData.semester1;
+        totals.semester2 += gradeData.semester2;
+        totals.yearAvg += gradeData.yearAvg;
+        totals.total += gradeData.total;
+        subjectCount++;
       }
-    })
+    });
 
     const finalTotals = {
-      semester1: editableTotals[`${gradeLevel}-semester1-total`] ?? Number(totals.semester1.toFixed(2)),
-      semester2: editableTotals[`${gradeLevel}-semester2-total`] ?? Number(totals.semester2.toFixed(2)),
-      yearAvg: editableTotals[`${gradeLevel}-yearAvg-total`] ?? Number(totals.yearAvg.toFixed(2)),
-      total: editableTotals[`${gradeLevel}-total-total`] ?? Number(totals.total.toFixed(2)),
+      semester1:
+        editableTotals[`${gradeLevel}-semester1-total`] ??
+        Number(totals.semester1.toFixed(2)),
+      semester2:
+        editableTotals[`${gradeLevel}-semester2-total`] ??
+        Number(totals.semester2.toFixed(2)),
+      yearAvg:
+        editableTotals[`${gradeLevel}-yearAvg-total`] ??
+        Number(totals.yearAvg.toFixed(2)),
+      total:
+        editableTotals[`${gradeLevel}-total-total`] ??
+        Number(totals.total.toFixed(2)),
       semester1Avg:
         editableTotals[`${gradeLevel}-semester1-avg`] ??
-        (subjectCount > 0 ? Number((totals.semester1 / subjectCount).toFixed(2)) : 0),
+        (subjectCount > 0
+          ? Number((totals.semester1 / subjectCount).toFixed(2))
+          : 0),
       semester2Avg:
         editableTotals[`${gradeLevel}-semester2-avg`] ??
-        (subjectCount > 0 ? Number((totals.semester2 / subjectCount).toFixed(2)) : 0),
+        (subjectCount > 0
+          ? Number((totals.semester2 / subjectCount).toFixed(2))
+          : 0),
       yearAvgAvg:
         editableTotals[`${gradeLevel}-yearAvg-avg`] ??
-        (subjectCount > 0 ? Number((totals.yearAvg / subjectCount).toFixed(2)) : 0),
+        (subjectCount > 0
+          ? Number((totals.yearAvg / subjectCount).toFixed(2))
+          : 0),
       subjectCount,
-    }
+    };
 
-    return finalTotals
-  }
+    return finalTotals;
+  };
 
   const PREDEFINED_SUBJECTS = [
     "Amharic",
@@ -211,30 +260,31 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
     "Economics",
     "Agriculture",
     "HPE",
-  ]
+    "ICT",
+  ];
 
   const handleKeyPress = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number,
     gradeLevel: string,
-    field: string,
+    field: string
   ) => {
     if (e.key === "Enter") {
-      e.preventDefault()
-      const value = (e.target as HTMLInputElement).value
-      updateGrade(index, gradeLevel, field, value)
+      e.preventDefault();
+      const value = (e.target as HTMLInputElement).value;
+      updateGrade(index, gradeLevel, field as GradeField, value);
 
-      const nextIndex = index + 1
+      const nextIndex = index + 1;
       if (nextIndex < grades.length) {
-        const nextInputKey = `${gradeLevel}-${nextIndex}-${field}`
-        const nextInput = inputRefs.current[nextInputKey]
+        const nextInputKey = `${gradeLevel}-${nextIndex}-${field}`;
+        const nextInput = inputRefs.current[nextInputKey];
         if (nextInput) {
-          nextInput.focus()
-          nextInput.select()
+          nextInput.focus();
+          nextInput.select();
         }
       }
     }
-  }
+  };
 
   const handleExport = () => {
     const exportData = {
@@ -242,45 +292,47 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
       grades: grades,
       conduct: conduct,
       exportDate: new Date().toISOString(),
-    }
+    };
 
-    const dataStr = JSON.stringify(exportData, null, 2)
-    const dataBlob = new Blob([dataStr], { type: "application/json" })
-    const url = URL.createObjectURL(dataBlob)
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
 
-    const link = document.createElement("a")
-    link.href = url
-    link.download = `${student.name.replace(/\s+/g, "_")}_grades_${new Date().toISOString().split("T")[0]}.json`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
-  }
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${student.name.replace(/\s+/g, "_")}_grades_${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const importData = JSON.parse(e.target?.result as string)
+        const importData = JSON.parse(e.target?.result as string);
         if (importData.grades) {
-          setGrades(importData.grades)
+          setGrades(importData.grades);
         }
         if (importData.conduct) {
-          setConduct(importData.conduct)
+          setConduct(importData.conduct);
         }
         if (importData.student) {
-          onSave({ ...importData.student, grades: importData.grades })
+          onSave({ ...importData.student, grades: importData.grades });
         }
       } catch (error) {
-        console.error("[v0] Error importing data:", error)
-        alert("Error importing file. Please check the file format.")
+        console.error("[v0] Error importing data:", error);
+        alert("Error importing file. Please check the file format.");
       }
-    }
-    reader.readAsText(file)
-  }
+    };
+    reader.readAsText(file);
+  };
 
   const updateConduct = (gradeLevel: string, field: string, value: string) => {
     setConduct((prev) => ({
@@ -289,22 +341,22 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
         ...prev[gradeLevel],
         [field]: value,
       },
-    }))
-  }
+    }));
+  };
 
   const handleSave = (isPartial: boolean) => {
-    setIsSaving(true)
+    setIsSaving(true);
 
     const updatedStudent = {
       ...student,
       grades,
       conduct: conduct,
-    }
-    onSave(updatedStudent)
-    setIsSaving(false)
-
+    };
+    onSave(updatedStudent);
+    setIsSaving(false);
+console.log(updatedStudent)
     // Show Grade Saved popup
-    const popup = document.createElement("div")
+    const popup = document.createElement("div");
     popup.innerHTML = `
       <div style="
         position: fixed;
@@ -325,13 +377,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
       ">
         ✓ Grade Saved
       </div>
-    `
-    document.body.appendChild(popup)
+    `;
+    document.body.appendChild(popup);
 
     setTimeout(() => {
-      document.body.removeChild(popup)
-    }, 2000)
-  }
+      document.body.removeChild(popup);
+    }, 2000);
+  };
 
   if (!student) {
     return (
@@ -340,7 +392,7 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
           <p className="text-muted-foreground">No student selected</p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (grades.length === 0) {
@@ -350,10 +402,10 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
           <p className="text-muted-foreground">Loading grades...</p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
-  const gradeLevels = getGradeLevels(student.template)
+  const gradeLevels = getGradeLevels(student.template);
 
   return (
     <Card>
@@ -361,7 +413,9 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
         <CardTitle className="flex items-center justify-between">
           <span>Grades for {student.name}</span>
           <div className="flex items-center gap-2">
-            <div className="text-sm text-muted-foreground">Template: {student.template}</div>
+            <div className="text-sm text-muted-foreground">
+              Template: {student.template}
+            </div>
             <div className="flex gap-2">
               <Button
                 variant="outline"
@@ -381,18 +435,26 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                 <Upload className="w-4 h-4" />
                 Import
               </Button>
-              <input id="import-file" type="file" accept=".json" onChange={handleImport} style={{ display: "none" }} />
+              <input
+                id="import-file"
+                type="file"
+                accept=".json"
+                onChange={handleImport}
+                style={{ display: "none" }}
+              />
             </div>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {gradeLevels.map((gradeLevel) => {
-          const levelTotals = calculateGradeLevelTotals(gradeLevel)
+          const levelTotals = calculateGradeLevelTotals(gradeLevel);
 
           return (
             <div key={gradeLevel} className="space-y-4">
-              <h3 className="text-lg font-semibold border-b pb-2">{gradeLevel} Academic Record</h3>
+              <h3 className="text-lg font-semibold border-b pb-2">
+                {gradeLevel} Academic Record
+              </h3>
 
               <div className="border rounded-lg overflow-hidden">
                 <Table>
@@ -407,19 +469,32 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                   <TableBody>
                     {grades.map((grade, index) => (
                       <TableRow key={`${gradeLevel}-${grade.subject}`}>
-                        <TableCell className="font-medium">{grade.subject}</TableCell>
+                        <TableCell className="font-medium">
+                          {grade.subject}
+                        </TableCell>
                         <TableCell>
                           <Input
                             ref={(el) => {
-                              inputRefs.current[`${gradeLevel}-${index}-semester1`] = el
+                              inputRefs.current[
+                                `${gradeLevel}-${index}-semester1`
+                              ] = el;
                             }}
                             type="number"
                             min="0"
                             max="100"
                             step="0.01"
                             value={grade.grades[gradeLevel]?.semester1 || ""}
-                            onChange={(e) => updateGrade(index, gradeLevel, "semester1", e.target.value)}
-                            onKeyPress={(e) => handleKeyPress(e, index, gradeLevel, "semester1")}
+                            onChange={(e) =>
+                              updateGrade(
+                                index,
+                                gradeLevel,
+                                "semester1",
+                                e.target.value
+                              )
+                            }
+                            onKeyPress={(e) =>
+                              handleKeyPress(e, index, gradeLevel, "semester1")
+                            }
                             className="text-center border-0 p-2 focus:ring-1 font-mono"
                             placeholder="0.00"
                           />
@@ -427,15 +502,26 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                         <TableCell>
                           <Input
                             ref={(el) => {
-                              inputRefs.current[`${gradeLevel}-${index}-semester2`] = el
+                              inputRefs.current[
+                                `${gradeLevel}-${index}-semester2`
+                              ] = el;
                             }}
                             type="number"
                             min="0"
                             max="100"
                             step="0.01"
                             value={grade.grades[gradeLevel]?.semester2 || ""}
-                            onChange={(e) => updateGrade(index, gradeLevel, "semester2", e.target.value)}
-                            onKeyPress={(e) => handleKeyPress(e, index, gradeLevel, "semester2")}
+                            onChange={(e) =>
+                              updateGrade(
+                                index,
+                                gradeLevel,
+                                "semester2",
+                                e.target.value
+                              )
+                            }
+                            onKeyPress={(e) =>
+                              handleKeyPress(e, index, gradeLevel, "semester2")
+                            }
                             className="text-center border-0 p-2 focus:ring-1 font-mono"
                             placeholder="0.00"
                           />
@@ -447,7 +533,14 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                             max="100"
                             step="0.01"
                             value={grade.grades[gradeLevel]?.yearAvg || ""}
-                            onChange={(e) => updateGrade(index, gradeLevel, "yearAvg", e.target.value)}
+                            onChange={(e) =>
+                              updateGrade(
+                                index,
+                                gradeLevel,
+                                "yearAvg",
+                                e.target.value
+                              )
+                            }
                             className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold"
                             placeholder="0.00"
                           />
@@ -462,7 +555,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.semester1}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "semester1-total", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "semester1-total",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -471,7 +570,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.semester2}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "semester2-total", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "semester2-total",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -480,7 +585,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.yearAvg}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "yearAvg-total", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "yearAvg-total",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -493,7 +604,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.semester1Avg}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "semester1-avg", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "semester1-avg",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -502,7 +619,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.semester2Avg}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "semester2-avg", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "semester2-avg",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -511,7 +634,13 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                           type="number"
                           step="0.01"
                           value={levelTotals.yearAvgAvg}
-                          onChange={(e) => updateEditableTotal(gradeLevel, "yearAvg-avg", e.target.value)}
+                          onChange={(e) =>
+                            updateEditableTotal(
+                              gradeLevel,
+                              "yearAvg-avg",
+                              e.target.value
+                            )
+                          }
                           className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent"
                         />
                       </TableCell>
@@ -522,7 +651,9 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                       <TableCell>
                         <Select
                           value={conduct[gradeLevel]?.semester1 || "A"}
-                          onValueChange={(value) => updateConduct(gradeLevel, "semester1", value)}
+                          onValueChange={(value) =>
+                            updateConduct(gradeLevel, "semester1", value)
+                          }
                         >
                           <SelectTrigger className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent">
                             <SelectValue />
@@ -540,7 +671,9 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                       <TableCell>
                         <Select
                           value={conduct[gradeLevel]?.semester2 || "A"}
-                          onValueChange={(value) => updateConduct(gradeLevel, "semester2", value)}
+                          onValueChange={(value) =>
+                            updateConduct(gradeLevel, "semester2", value)
+                          }
                         >
                           <SelectTrigger className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent">
                             <SelectValue />
@@ -558,7 +691,9 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                       <TableCell>
                         <Select
                           value={conduct[gradeLevel]?.yearAvg || "A"}
-                          onValueChange={(value) => updateConduct(gradeLevel, "yearAvg", value)}
+                          onValueChange={(value) =>
+                            updateConduct(gradeLevel, "yearAvg", value)
+                          }
                         >
                           <SelectTrigger className="text-center border-0 p-2 focus:ring-1 font-mono font-semibold bg-transparent">
                             <SelectValue />
@@ -578,16 +713,19 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
                 </Table>
               </div>
             </div>
-          )
+          );
         })}
 
         <div className="flex justify-end pt-4 border-t">
-          <Button onClick={() => handleSave(false)} className="flex items-center gap-2">
+          <Button
+            onClick={() => handleSave(false)}
+            className="flex items-center gap-2"
+          >
             <Save className="w-4 h-4" />
             Save All Grades
           </Button>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
