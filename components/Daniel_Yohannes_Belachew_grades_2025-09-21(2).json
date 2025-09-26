@@ -1,0 +1,629 @@
+{
+  "student": {
+    "id": "1758453023262",
+    "name": "Daniel Yohannes Belachew",
+    "gender": "Male",
+    "age": 18,
+    "template": "G10-G12",
+    "grades": [
+      {
+        "subject": "Amharic",
+        "grades": {
+          "G10": {
+            "semester1": 87,
+            "semester2": 89,
+            "yearAvg": 88,
+            "total": 176
+          },
+          "G11": {
+            "semester1": 78,
+            "semester2": 68,
+            "yearAvg": 73,
+            "total": 146
+          },
+          "G12": {
+            "semester1": 87,
+            "semester2": 99.98,
+            "yearAvg": 93.49,
+            "total": 186.98
+          }
+        }
+      },
+      {
+        "subject": "English",
+        "grades": {
+          "G10": {
+            "semester1": 67,
+            "semester2": 67,
+            "yearAvg": 67,
+            "total": 134
+          },
+          "G11": {
+            "semester1": 67,
+            "semester2": 69,
+            "yearAvg": 68,
+            "total": 136
+          },
+          "G12": {
+            "semester1": 56,
+            "semester2": 77.99,
+            "yearAvg": 67,
+            "total": 133.99
+          }
+        }
+      },
+      {
+        "subject": "Mathematics",
+        "grades": {
+          "G10": {
+            "semester1": 56,
+            "semester2": 68,
+            "yearAvg": 62,
+            "total": 124
+          },
+          "G11": {
+            "semester1": 98,
+            "semester2": 57,
+            "yearAvg": 77.5,
+            "total": 155
+          },
+          "G12": {
+            "semester1": 100,
+            "semester2": 78,
+            "yearAvg": 89,
+            "total": 178
+          }
+        }
+      },
+      {
+        "subject": "Physics",
+        "grades": {
+          "G10": {
+            "semester1": 67,
+            "semester2": 98,
+            "yearAvg": 82.5,
+            "total": 165
+          },
+          "G11": {
+            "semester1": 67,
+            "semester2": 98,
+            "yearAvg": 82.5,
+            "total": 165
+          },
+          "G12": {
+            "semester1": 87,
+            "semester2": 57,
+            "yearAvg": 72,
+            "total": 144
+          }
+        }
+      },
+      {
+        "subject": "Chemistry",
+        "grades": {
+          "G10": {
+            "semester1": 87,
+            "semester2": 100,
+            "yearAvg": 93.5,
+            "total": 187
+          },
+          "G11": {
+            "semester1": 78,
+            "semester2": 100,
+            "yearAvg": 89,
+            "total": 178
+          },
+          "G12": {
+            "semester1": 97,
+            "semester2": 100,
+            "yearAvg": 98.5,
+            "total": 197
+          }
+        }
+      },
+      {
+        "subject": "Biology",
+        "grades": {
+          "G10": {
+            "semester1": 67,
+            "semester2": 86,
+            "yearAvg": 76.5,
+            "total": 153
+          },
+          "G11": {
+            "semester1": 67,
+            "semester2": 98,
+            "yearAvg": 82.5,
+            "total": 165
+          },
+          "G12": {
+            "semester1": 100,
+            "semester2": 100,
+            "yearAvg": 100,
+            "total": 200
+          }
+        }
+      },
+      {
+        "subject": "Geography",
+        "grades": {
+          "G10": {
+            "semester1": 79,
+            "semester2": 100,
+            "yearAvg": 89.5,
+            "total": 179
+          },
+          "G11": {
+            "semester1": 56,
+            "semester2": 68,
+            "yearAvg": 62,
+            "total": 124
+          },
+          "G12": {
+            "semester1": 100,
+            "semester2": 57,
+            "yearAvg": 78.5,
+            "total": 157
+          }
+        }
+      },
+      {
+        "subject": "History",
+        "grades": {
+          "G10": {
+            "semester1": 89,
+            "semester2": 100,
+            "yearAvg": 94.5,
+            "total": 189
+          },
+          "G11": {
+            "semester1": 78,
+            "semester2": 89,
+            "yearAvg": 83.5,
+            "total": 167
+          },
+          "G12": {
+            "semester1": 78,
+            "semester2": 100,
+            "yearAvg": 89,
+            "total": 178
+          }
+        }
+      },
+      {
+        "subject": "Civics",
+        "grades": {
+          "G10": {
+            "semester1": 100,
+            "semester2": 100,
+            "yearAvg": 100,
+            "total": 200
+          },
+          "G11": {
+            "semester1": 89,
+            "semester2": 68,
+            "yearAvg": 78.5,
+            "total": 157
+          },
+          "G12": {
+            "semester1": 100,
+            "semester2": 87,
+            "yearAvg": 93.5,
+            "total": 187
+          }
+        }
+      },
+      {
+        "subject": "Economics",
+        "grades": {
+          "G10": {
+            "semester1": 68,
+            "semester2": 98,
+            "yearAvg": 83,
+            "total": 166
+          },
+          "G11": {
+            "semester1": 68,
+            "semester2": 89,
+            "yearAvg": 78.5,
+            "total": 157
+          },
+          "G12": {
+            "semester1": 79,
+            "semester2": 100,
+            "yearAvg": 89.5,
+            "total": 179
+          }
+        }
+      },
+      {
+        "subject": "Agriculture",
+        "grades": {
+          "G10": {
+            "semester1": 89,
+            "semester2": 78,
+            "yearAvg": 83.5,
+            "total": 167
+          },
+          "G11": {
+            "semester1": 100,
+            "semester2": 100,
+            "yearAvg": 100,
+            "total": 200
+          },
+          "G12": {
+            "semester1": 67,
+            "semester2": 16,
+            "yearAvg": 41.5,
+            "total": 83
+          }
+        }
+      },
+      {
+        "subject": "HPE",
+        "grades": {
+          "G10": {
+            "semester1": 68,
+            "semester2": 98,
+            "yearAvg": 83,
+            "total": 166
+          },
+          "G11": {
+            "semester1": 98,
+            "semester2": 89,
+            "yearAvg": 93.5,
+            "total": 187
+          },
+          "G12": {
+            "semester1": 57,
+            "semester2": 100,
+            "yearAvg": 78.5,
+            "total": 157
+          }
+        }
+      },
+      {
+        "subject": "ICT",
+        "grades": {
+          "G10": {
+            "semester1": 100,
+            "semester2": 68,
+            "yearAvg": 84,
+            "total": 168
+          },
+          "G11": {
+            "semester1": 100,
+            "semester2": 68,
+            "yearAvg": 84,
+            "total": 168
+          },
+          "G12": {
+            "semester1": 78,
+            "semester2": 12,
+            "yearAvg": 45,
+            "total": 90
+          }
+        }
+      }
+    ]
+  },
+  "grades": [
+    {
+      "subject": "Amharic",
+      "grades": {
+        "G10": {
+          "semester1": 87,
+          "semester2": 89,
+          "yearAvg": 88,
+          "total": 176
+        },
+        "G11": {
+          "semester1": 78,
+          "semester2": 68,
+          "yearAvg": 73,
+          "total": 146
+        },
+        "G12": {
+          "semester1": 87,
+          "semester2": 99.98,
+          "yearAvg": 93.49,
+          "total": 186.98
+        }
+      }
+    },
+    {
+      "subject": "English",
+      "grades": {
+        "G10": {
+          "semester1": 67,
+          "semester2": 67,
+          "yearAvg": 67,
+          "total": 134
+        },
+        "G11": {
+          "semester1": 67,
+          "semester2": 69,
+          "yearAvg": 68,
+          "total": 136
+        },
+        "G12": {
+          "semester1": 56,
+          "semester2": 77.99,
+          "yearAvg": 67,
+          "total": 133.99
+        }
+      }
+    },
+    {
+      "subject": "Mathematics",
+      "grades": {
+        "G10": {
+          "semester1": 56,
+          "semester2": 68,
+          "yearAvg": 62,
+          "total": 124
+        },
+        "G11": {
+          "semester1": 98,
+          "semester2": 57,
+          "yearAvg": 77.5,
+          "total": 155
+        },
+        "G12": {
+          "semester1": 100,
+          "semester2": 78,
+          "yearAvg": 89,
+          "total": 178
+        }
+      }
+    },
+    {
+      "subject": "Physics",
+      "grades": {
+        "G10": {
+          "semester1": 67,
+          "semester2": 98,
+          "yearAvg": 82.5,
+          "total": 165
+        },
+        "G11": {
+          "semester1": 67,
+          "semester2": 98,
+          "yearAvg": 82.5,
+          "total": 165
+        },
+        "G12": {
+          "semester1": 87,
+          "semester2": 57,
+          "yearAvg": 72,
+          "total": 144
+        }
+      }
+    },
+    {
+      "subject": "Chemistry",
+      "grades": {
+        "G10": {
+          "semester1": 87,
+          "semester2": 100,
+          "yearAvg": 93.5,
+          "total": 187
+        },
+        "G11": {
+          "semester1": 78,
+          "semester2": 100,
+          "yearAvg": 89,
+          "total": 178
+        },
+        "G12": {
+          "semester1": 97,
+          "semester2": 100,
+          "yearAvg": 98.5,
+          "total": 197
+        }
+      }
+    },
+    {
+      "subject": "Biology",
+      "grades": {
+        "G10": {
+          "semester1": 67,
+          "semester2": 86,
+          "yearAvg": 76.5,
+          "total": 153
+        },
+        "G11": {
+          "semester1": 67,
+          "semester2": 98,
+          "yearAvg": 82.5,
+          "total": 165
+        },
+        "G12": {
+          "semester1": 100,
+          "semester2": 100,
+          "yearAvg": 100,
+          "total": 200
+        }
+      }
+    },
+    {
+      "subject": "Geography",
+      "grades": {
+        "G10": {
+          "semester1": 79,
+          "semester2": 100,
+          "yearAvg": 89.5,
+          "total": 179
+        },
+        "G11": {
+          "semester1": 56,
+          "semester2": 68,
+          "yearAvg": 62,
+          "total": 124
+        },
+        "G12": {
+          "semester1": 100,
+          "semester2": 57,
+          "yearAvg": 78.5,
+          "total": 157
+        }
+      }
+    },
+    {
+      "subject": "History",
+      "grades": {
+        "G10": {
+          "semester1": 89,
+          "semester2": 100,
+          "yearAvg": 94.5,
+          "total": 189
+        },
+        "G11": {
+          "semester1": 78,
+          "semester2": 89,
+          "yearAvg": 83.5,
+          "total": 167
+        },
+        "G12": {
+          "semester1": 78,
+          "semester2": 100,
+          "yearAvg": 89,
+          "total": 178
+        }
+      }
+    },
+    {
+      "subject": "Civics",
+      "grades": {
+        "G10": {
+          "semester1": 100,
+          "semester2": 100,
+          "yearAvg": 100,
+          "total": 200
+        },
+        "G11": {
+          "semester1": 89,
+          "semester2": 68,
+          "yearAvg": 78.5,
+          "total": 157
+        },
+        "G12": {
+          "semester1": 100,
+          "semester2": 87,
+          "yearAvg": 93.5,
+          "total": 187
+        }
+      }
+    },
+    {
+      "subject": "Economics",
+      "grades": {
+        "G10": {
+          "semester1": 68,
+          "semester2": 98,
+          "yearAvg": 83,
+          "total": 166
+        },
+        "G11": {
+          "semester1": 68,
+          "semester2": 89,
+          "yearAvg": 78.5,
+          "total": 157
+        },
+        "G12": {
+          "semester1": 79,
+          "semester2": 100,
+          "yearAvg": 89.5,
+          "total": 179
+        }
+      }
+    },
+    {
+      "subject": "Agriculture",
+      "grades": {
+        "G10": {
+          "semester1": 89,
+          "semester2": 78,
+          "yearAvg": 83.5,
+          "total": 167
+        },
+        "G11": {
+          "semester1": 100,
+          "semester2": 100,
+          "yearAvg": 100,
+          "total": 200
+        },
+        "G12": {
+          "semester1": 67,
+          "semester2": 16,
+          "yearAvg": 41.5,
+          "total": 83
+        }
+      }
+    },
+    {
+      "subject": "HPE",
+      "grades": {
+        "G10": {
+          "semester1": 68,
+          "semester2": 98,
+          "yearAvg": 83,
+          "total": 166
+        },
+        "G11": {
+          "semester1": 98,
+          "semester2": 89,
+          "yearAvg": 93.5,
+          "total": 187
+        },
+        "G12": {
+          "semester1": 57,
+          "semester2": 100,
+          "yearAvg": 78.5,
+          "total": 157
+        }
+      }
+    },
+    {
+      "subject": "ICT",
+      "grades": {
+        "G10": {
+          "semester1": 100,
+          "semester2": 68,
+          "yearAvg": 84,
+          "total": 168
+        },
+        "G11": {
+          "semester1": 100,
+          "semester2": 68,
+          "yearAvg": 84,
+          "total": 168
+        },
+        "G12": {
+          "semester1": 78,
+          "semester2": 12,
+          "yearAvg": 45,
+          "total": 90
+        }
+      }
+    }
+  ],
+  "conduct": {
+    "G10": {
+      "semester1": "A",
+      "semester2": "A",
+      "yearAvg": "A"
+    },
+    "G11": {
+      "semester1": "A",
+      "semester2": "A",
+      "yearAvg": "A"
+    },
+    "G12": {
+      "semester1": "A",
+      "semester2": "A",
+      "yearAvg": "A"
+    }
+  },
+  "exportDate": "2025-09-21T12:10:52.110Z"
+}

@@ -1,129 +1,160 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Download, Upload, Trash2, AlertCircle, FileText } from "lucide-react"
-import { FileManager } from "@/lib/file-manager"
-import type { Student } from "@/app/page"
+import type React from "react";
+import { useState, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Download, Upload, Trash2, AlertCircle, FileText } from "lucide-react";
+import { FileManager } from "@/lib/file-manager";
+import type { Student } from "@/app/page";
 
 interface DataManagerProps {
-  students: Student[]
-  onImport: (students: Student[]) => void
-  onDeleteStudent: (studentId: string) => void
+  students: Student[];
+  onImport: (students: Student[]) => void;
+  onDeleteStudent: (studentId: string) => void;
 }
 
-export function DataManager({ students, onImport, onDeleteStudent }: DataManagerProps) {
-  const [importError, setImportError] = useState<string | null>(null)
-  const [importSuccess, setImportSuccess] = useState<string | null>(null)
-  const [isProcessing, setIsProcessing] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+export function DataManager({
+  students,
+  onImport,
+  onDeleteStudent,
+}: DataManagerProps) {
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importSuccess, setImportSuccess] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const downloadJSON = async () => {
     try {
-      setIsProcessing(true)
-      console.log("[v0] Starting JSON download...")
+      setIsProcessing(true);
+      console.log("[v0] Starting JSON download...");
 
-      const blob = await FileManager.exportStudents()
+      const blob = await FileManager.exportStudents();
       if (!blob) {
-        throw new Error("Failed to create export data")
+        throw new Error("Failed to create export data");
       }
 
       // Create download link
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = `transcript-data-${new Date().toISOString().split("T")[0]}.json`
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `transcript-data-${
+        new Date().toISOString().split("T")[0]
+      }.json`;
 
       // Trigger download
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       // Clean up
-      URL.revokeObjectURL(url)
+      URL.revokeObjectURL(url);
 
-      console.log("[v0] JSON download completed")
-      setImportSuccess("Data exported successfully!")
+      console.log("[v0] JSON download completed");
+      setImportSuccess("Data exported successfully!");
 
       // Clear success message after 3 seconds
-      setTimeout(() => setImportSuccess(null), 3000)
+      setTimeout(() => setImportSuccess(null), 3000);
     } catch (error) {
-      console.error("[v0] Error downloading JSON:", error)
-      setImportError("Failed to download data")
-      setTimeout(() => setImportError(null), 5000)
+      console.error("[v0] Error downloading JSON:", error);
+      setImportError("Failed to download data");
+      setTimeout(() => setImportError(null), 5000);
     } finally {
-      setIsProcessing(false)
+      setIsProcessing(false);
     }
-  }
+  };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    setImportError(null)
-    setImportSuccess(null)
-    setIsProcessing(true)
+    // Ensure file type is JSON
+    if (!file.name.endsWith(".json")) {
+      setImportError("Please upload a valid JSON file.");
+      setTimeout(() => setImportError(null), 5000);
+      return;
+    }
+
+    setImportError(null);
+    setImportSuccess(null);
+    setIsProcessing(true);
 
     try {
-      console.log("[v0] Starting file upload...")
+      const content = await file.text();
+      let studentsData: Student[];
 
-      const content = await file.text()
-      const result = await FileManager.importStudents(content)
-
-      if (result.success) {
-        // Reload students from file
-        const updatedStudents = await FileManager.readStudents()
-        onImport(updatedStudents)
-        setImportSuccess(result.message)
-        console.log("[v0] File import completed:", result.count, "students")
-      } else {
-        setImportError(result.message)
+      // Parse and validate JSON
+      try {
+        const parsed = JSON.parse(content);
+        if (!Array.isArray(parsed))
+          throw new Error("Invalid file format: Expected an array.");
+        // Optionally, add more validation here
+        studentsData = parsed;
+      } catch (err) {
+        throw new Error("Invalid JSON structure.");
       }
+
+      // Save to local storage (or use FileManager if it handles this)
+      localStorage.setItem("students", JSON.stringify(studentsData));
+      onImport(studentsData);
+      setImportSuccess("Data imported successfully!");
+
+      console.log(
+        "[v0] File import completed:",
+        studentsData.length,
+        "students"
+      );
     } catch (error) {
-      console.error("[v0] Error importing file:", error)
-      setImportError(`Import failed: ${error instanceof Error ? error.message : "Unknown error"}`)
+      console.error("[v0] Error importing file:", error);
+      setImportError(
+        `Import failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     } finally {
-      setIsProcessing(false)
-      // Reset the input
+      setIsProcessing(false);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""
+        fileInputRef.current.value = "";
       }
-      // Clear messages after 5 seconds
       setTimeout(() => {
-        setImportError(null)
-        setImportSuccess(null)
-      }, 5000)
+        setImportError(null);
+        setImportSuccess(null);
+      }, 5000);
     }
-  }
+  };
 
   const clearAllData = async () => {
-    if (confirm("Are you sure you want to delete all student data? This action cannot be undone.")) {
-      setIsProcessing(true)
+    if (
+      confirm(
+        "Are you sure you want to delete all student data? This action cannot be undone."
+      )
+    ) {
+      setIsProcessing(true);
       try {
-        const success = await FileManager.clearAllStudents()
+        const success = await FileManager.clearAllStudents();
         if (success) {
-          onImport([])
-          setImportSuccess("All data cleared successfully")
-          console.log("[v0] All data cleared")
+          onImport([]);
+          setImportSuccess("All data cleared successfully");
+          console.log("[v0] All data cleared");
         } else {
-          setImportError("Failed to clear data")
+          setImportError("Failed to clear data");
         }
       } catch (error) {
-        console.error("[v0] Error clearing data:", error)
-        setImportError("Failed to clear data")
+        console.error("[v0] Error clearing data:", error);
+        setImportError("Failed to clear data");
       } finally {
-        setIsProcessing(false)
+        setIsProcessing(false);
         setTimeout(() => {
-          setImportError(null)
-          setImportSuccess(null)
-        }, 3000)
+          setImportError(null);
+          setImportSuccess(null);
+        }, 3000);
       }
     }
-  }
+  };
 
   return (
     <Card>
@@ -138,7 +169,9 @@ export function DataManager({ students, onImport, onDeleteStudent }: DataManager
         <div className="flex items-center justify-between p-4 border rounded-lg">
           <div>
             <h3 className="font-semibold">Export Data</h3>
-            <p className="text-sm text-muted-foreground">Download all student data as JSON file</p>
+            <p className="text-sm text-muted-foreground">
+              Download all student data as JSON file
+            </p>
           </div>
           <Button
             onClick={downloadJSON}
@@ -155,7 +188,9 @@ export function DataManager({ students, onImport, onDeleteStudent }: DataManager
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-semibold">Import Data</h3>
-              <p className="text-sm text-muted-foreground">Upload JSON file to restore student data</p>
+              <p className="text-sm text-muted-foreground">
+                Upload JSON file to restore student data
+              </p>
             </div>
             <Button
               onClick={() => fileInputRef.current?.click()}
@@ -180,7 +215,9 @@ export function DataManager({ students, onImport, onDeleteStudent }: DataManager
           {importError && (
             <Alert className="border-destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription className="text-destructive">{importError}</AlertDescription>
+              <AlertDescription className="text-destructive">
+                {importError}
+              </AlertDescription>
             </Alert>
           )}
 
@@ -196,7 +233,9 @@ export function DataManager({ students, onImport, onDeleteStudent }: DataManager
         <div className="flex items-center justify-between p-4 border border-destructive/20 rounded-lg bg-destructive/5">
           <div>
             <h3 className="font-semibold text-destructive">Clear All Data</h3>
-            <p className="text-sm text-muted-foreground">Permanently delete all student records</p>
+            <p className="text-sm text-muted-foreground">
+              Permanently delete all student records
+            </p>
           </div>
           <Button
             onClick={clearAllData}
@@ -210,5 +249,5 @@ export function DataManager({ students, onImport, onDeleteStudent }: DataManager
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

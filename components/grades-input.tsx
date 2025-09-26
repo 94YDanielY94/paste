@@ -286,53 +286,7 @@ export function GradesInput({ student, onSave }: GradesInputProps) {
     }
   };
 
-  const handleExport = () => {
-    const exportData = {
-      student: student,
-      grades: grades,
-      conduct: conduct,
-      exportDate: new Date().toISOString(),
-    };
-
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${student.name.replace(/\s+/g, "_")}_grades_${
-      new Date().toISOString().split("T")[0]
-    }.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
-  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const importData = JSON.parse(e.target?.result as string);
-        if (importData.grades) {
-          setGrades(importData.grades);
-        }
-        if (importData.conduct) {
-          setConduct(importData.conduct);
-        }
-        if (importData.student) {
-          onSave({ ...importData.student, grades: importData.grades });
-        }
-      } catch (error) {
-        console.error("[v0] Error importing data:", error);
-        alert("Error importing file. Please check the file format.");
-      }
-    };
-    reader.readAsText(file);
-  };
+ 
 
   const updateConduct = (gradeLevel: string, field: string, value: string) => {
     setConduct((prev) => ({
@@ -416,33 +370,7 @@ console.log(updatedStudent)
             <div className="text-sm text-muted-foreground">
               Template: {student.template}
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleExport}
-                className="flex items-center gap-1 bg-transparent"
-              >
-                <Download className="w-4 h-4" />
-                Export
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => document.getElementById("import-file")?.click()}
-                className="flex items-center gap-1"
-              >
-                <Upload className="w-4 h-4" />
-                Import
-              </Button>
-              <input
-                id="import-file"
-                type="file"
-                accept=".json"
-                onChange={handleImport}
-                style={{ display: "none" }}
-              />
-            </div>
+            
           </div>
         </CardTitle>
       </CardHeader>
