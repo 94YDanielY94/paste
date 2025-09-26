@@ -1,8 +1,7 @@
-'use client';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { useEffect } from "react";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,18 +25,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Register service worker on client only
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((reg) => console.log("Service worker registered:", reg.scope))
-        .catch((err) =>
-          console.error("Service worker registration failed:", err)
-        );
-    }
-  }, []);
-
   return (
     <html lang="en">
       <head>
@@ -51,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ServiceWorkerRegister />
         {children}
       </body>
     </html>
