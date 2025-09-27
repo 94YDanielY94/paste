@@ -184,7 +184,7 @@ export default function TranscriptGenerator() {
               alt="Transcript Generator"
               width={48}
               height={48}
-              className="rounded-lg shadow-sm"
+              className="rounded-sm shadow-sm"
             />
             <div>
               <h1 className="text-4xl font-bold text-foreground mb-1">
