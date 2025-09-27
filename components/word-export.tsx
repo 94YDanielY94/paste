@@ -105,7 +105,11 @@ export function WordExport({ student }: WordExportProps) {
       // Table header rows
       const headerRow1 = [
         new TableCell({
-          children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+          children: [
+            new Paragraph({
+              children: [new TextRun({ text: "SUBJECT", bold: true })],
+            }),
+          ],
           rowSpan: 2,
           borders: {
             top: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
@@ -117,7 +121,11 @@ export function WordExport({ student }: WordExportProps) {
         }),
         ...gradeLevels.flatMap((gradeLevel) => [
           new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: gradeLevel, bold: true })],
+              }),
+            ],
             columnSpan: 3,
             borders: {
               top: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
@@ -125,6 +133,7 @@ export function WordExport({ student }: WordExportProps) {
               left: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
             },
+            width: { size: 20, type: WidthType.PERCENTAGE },
           }),
         ]),
       ];
@@ -132,31 +141,46 @@ export function WordExport({ student }: WordExportProps) {
       const headerRow2 = [
         ...gradeLevels.flatMap(() => [
           new TableCell({
-             children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "SEM1", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
             },
+            width: { size: 10, type: WidthType.PERCENTAGE },
           }),
           new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "SEM2", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
             },
+            width: { size: 10, type: WidthType.PERCENTAGE },
           }),
           new TableCell({
-             children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "YR AVG", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
             },
+            width: { size: 10, type: WidthType.PERCENTAGE },
           }),
         ]),
       ];
@@ -167,7 +191,13 @@ export function WordExport({ student }: WordExportProps) {
           new TableRow({
             children: [
               new TableCell({
-                  children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({ text: subject.subject, bold: true }),
+                    ],
+                  }),
+                ],
                 borders: {
                   top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
                   bottom: {
@@ -182,6 +212,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 20, type: WidthType.PERCENTAGE },
               }),
               ...gradeLevels.flatMap((gradeLevel) => {
                 const gradeData = getGradeData(subject, gradeLevel);
@@ -217,6 +248,7 @@ export function WordExport({ student }: WordExportProps) {
                         color: "000000",
                       },
                     },
+                    width: { size: 10, type: WidthType.PERCENTAGE },
                   }),
                   new TableCell({
                     children: [
@@ -249,6 +281,7 @@ export function WordExport({ student }: WordExportProps) {
                         color: "000000",
                       },
                     },
+                    width: { size: 10, type: WidthType.PERCENTAGE },
                   }),
                   new TableCell({
                     children: [
@@ -281,6 +314,7 @@ export function WordExport({ student }: WordExportProps) {
                         color: "000000",
                       },
                     },
+                    width: { size: 10, type: WidthType.PERCENTAGE },
                   }),
                 ];
               }),
@@ -292,13 +326,18 @@ export function WordExport({ student }: WordExportProps) {
       const totalsRow = new TableRow({
         children: [
           new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "TOTALS", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
             },
+            width: { size: 20, type: WidthType.PERCENTAGE },
           }),
           ...gradeLevels.flatMap((gradeLevel) => {
             const totals = calculateTotals(gradeLevel);
@@ -319,6 +358,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: totals.sem2Total })],
@@ -336,6 +376,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: totals.yearAvgTotal })],
@@ -353,6 +394,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
             ];
           }),
@@ -362,13 +404,18 @@ export function WordExport({ student }: WordExportProps) {
       const averagesRow = new TableRow({
         children: [
           new TableCell({
-             children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "AVERAGES", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
             },
+            width: { size: 20, type: WidthType.PERCENTAGE },
           }),
           ...gradeLevels.flatMap((gradeLevel) => {
             const totals = calculateTotals(gradeLevel);
@@ -389,6 +436,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: totals.sem2Avg })],
@@ -406,6 +454,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: totals.yearAvgAvg })],
@@ -423,6 +472,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
             ];
           }),
@@ -432,13 +482,18 @@ export function WordExport({ student }: WordExportProps) {
       const conductRow = new TableRow({
         children: [
           new TableCell({
-            children: [new Paragraph({ children: [new TextRun({ text: "SUBJECT", bold: true })] })],
+            children: [
+              new Paragraph({
+                children: [new TextRun({ text: "CONDUCT", bold: true })],
+              }),
+            ],
             borders: {
               top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
               right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
             },
+            width: { size: 20, type: WidthType.PERCENTAGE },
           }),
           ...gradeLevels.flatMap((gradeLevel) => {
             const conduct = getConductData(gradeLevel);
@@ -459,6 +514,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: conduct.semester2 })],
@@ -476,6 +532,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
               new TableCell({
                 children: [new Paragraph({ text: conduct.yearAvg })],
@@ -493,6 +550,7 @@ export function WordExport({ student }: WordExportProps) {
                     color: "000000",
                   },
                 },
+                width: { size: 10, type: WidthType.PERCENTAGE },
               }),
             ];
           }),
@@ -550,19 +608,18 @@ export function WordExport({ student }: WordExportProps) {
                   conductRow,
                 ],
                 width: { size: 100, type: WidthType.PERCENTAGE },
+                columnWidths: [
+                  2000,
+                  ...Array(gradeLevels.length * 3).fill(1200),
+                ],
               }),
               new Paragraph({ text: "" }),
               new Paragraph({
                 children: [
-                  new TextRun({
-                    text: `Generated: ${new Date().toLocaleDateString()}`,
-                  }),
-                  new TextRun({ text: " ".repeat(50) }),
                   new TextRun({ text: "Authorized Signature", break: 1 }),
-                  new TextRun({ text: " ".repeat(50) }),
-                  new TextRun({ text: `ID: ${student.id}` }),
                 ],
                 spacing: { before: 400, after: 100 },
+                alignment: "center",
               }),
             ],
           },

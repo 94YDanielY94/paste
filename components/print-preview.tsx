@@ -333,19 +333,7 @@ export function PrintPreview({ student }: PrintPreviewProps) {
               </table>
             </div>
 
-            {/* Footer - Compact */}
-            <div className="border-t border-black pt-2 mt-3 flex justify-between items-center text-xs">
-              <div>
-                <div>Generated: {new Date().toLocaleDateString()}</div>
-              </div>
-              <div className="text-center">
-                <div className="border-t border-black w-24 mb-1"></div>
-                <div>Authorized Signature</div>
-              </div>
-              <div className="text-right">
-                <div>ID: {student.id}</div>
-              </div>
-            </div>
+            
           </div>
         </div>
       )}
